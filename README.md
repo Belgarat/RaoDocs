@@ -7,6 +7,7 @@ description: >-
 # Guida alla configurazione del RAO Pubblico
 
 ## Generazione certificati RAO
+### (IP server 192.168.1.29)
 
 1. Clonare il Repository con l'utility per la generazione:\
    `git clone https://github.com/psmiraglia/spid-compliant-certificates.git`
@@ -54,4 +55,26 @@ Per mantenre un unico container per la firma delle richieste (rao-signature.sitb
 ## Virtual Host Apache e SSL LetsEncrypt
 
 1. Creare il file con il nome rao-pubblico-\<nome ente>.conf
-2. Inserire quanto segue:
+2. Inserire quanto segue nel virtualhost:  
+   ```  
+   ServerName raopubblico.comunedimiane.it
+   ErrorLog ${APACHE_LOG_DIR}/raopubblicomiane_error.log
+   CustomLog ${APACHE_LOG_DIR}/raopubblicomiane_access.log combined
+   Alias /public /var/www/metadata/miane
+   <Location />
+      Require all granted
+      ProxyPass http://localhost:8001/ flushpackets=on
+      ProxyPassReverse http://localhost:8001
+   </Location>
+   <Directory /var/www/metadata/miane>
+      Options All
+      AllowOverride All
+      order allow,deny
+      allow from all
+   </Directory>
+
+Questo codice indica ad apache che la chiamata diretta all'url indicato in ServerName deve essere rediretta sulla porta 8001 (in questo caso) che è il container Docker che gestisce la Webapp, inoltre se l'url ha come sotto path la voce /public deve andare a leggere nella directory indicata cosa importante per eventualmente inserire dei file statici.
+
+>Chiaramente nel caso di aggiunta di un ente nuovo, sarà necessario modificare opportunamente il numero di porta e il dominio.
+
+A questo punto usando LetsEncrypt e il suo tool certbot è possibile andare ad impostare i certificati SSL per il nuovo dominio, genererà in automatico il file virutalhost per la porta 443 https configurando in automatico apache.
