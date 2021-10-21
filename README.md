@@ -52,3 +52,6 @@ Inoltre se si aggiungono nuovi enti la porta 8001 dovrà essere incrementata di 
 Per mantenre un unico container per la firma delle richieste (rao-signature.sitbl.it) aggiunto la entry --add-host in modo da non far inviare la richiesta di collegamento verso internet.
 
 ## Virtual Host Apache e SSL LetsEncrypt
+
+1. Creare il file con il nome rao-pubblico-\<nome ente>.conf
+2. Inserire quanto segue:
