@@ -50,7 +50,7 @@ description: >-
 
 Inoltre se si aggiungono nuovi enti la porta 8001 dovrà essere incrementata di conseguenza (8002,8003...)
 
-Per mantenre un unico container per la firma delle richieste (rao-signature.sitbl.it) aggiunto la entry --add-host in modo da non far inviare la richiesta di collegamento verso internet.
+Per mantenre un unico container per la firma delle richieste (rao-signature.sitbl.it) ho aggiunto la entry --add-host in modo da non far inviare la richiesta di collegamento verso internet.
 
 ## Virtual Host Apache e SSL LetsEncrypt
 
